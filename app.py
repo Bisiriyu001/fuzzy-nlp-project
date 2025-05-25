@@ -17,6 +17,8 @@ def match_name():
     matches = [{"name": name, "score": score} for name, score, _ in results]
     return jsonify(matches)
 
-# Run the app
+# Run the app (modified for Render)
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="127.0.0.1", port=port)
