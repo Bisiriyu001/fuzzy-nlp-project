@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuzzy NLP Name Matcher</title>
+</head>
+<body>
+    <h2>Fuzzy NLP Name Matcher</h2>
+    <input type="text" id="nameInput" placeholder="Enter a name">
+    <button onclick="submitName()">Match</button>
+    <ul id="resultsList"></ul>
+
+    <script>
+        function submitName() {
+            const inputName = document.getElementById("nameInput").value;
+            fetch("/match", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: inputName })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const resultsList = document.getElementById("resultsList");
+                resultsList.innerHTML = "";
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = `${item.name} → Score: ${item.score}%`;
+                    resultsList.appendChild(li);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
